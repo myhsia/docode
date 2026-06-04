@@ -1,0 +1,351 @@
+% \iffalse meta-comment
+%
+% File: fancydoc.dtx
+% -----------------------------------------------------------------------
+%   Copyright (C) 2026 by Mingyu Xia <myhsia@outlook.com>               *
+% -----------------------------------------------------------------------
+%   This work may be distributed and/or modified under the conditions   *
+%   of the LaTeX Project Public License (LPPL), either version 1.3c of  *
+%   this license or (at your option) any later version.                 *
+%   The latest version of this license is in                            *
+%                                                                       *
+%       http://www.latex-project.org/lppl.txt                           *
+%                                                                       *
+%   and version 1.3c or later is part of all distributions of LaTeX     *
+%   version 2008 or later.                                              *
+%                                                                       *
+%   This work has the LPPL maintenance status `maintained'.             *
+%                                                                       *
+%   The Current Maintainer of this work is Mingyu Xia.                  *
+% -----------------------------------------------------------------------
+%   This work consists of the files fancydoc.dtx,                       *
+%                                   fancydoc.ins,                       *
+%                 the derived files fancydoc.sty,                       *
+%           the documentation files fancydoc.pdf,                       *
+%                               and README.md.                          *
+% -----------------------------------------------------------------------
+%                                                                       *
+%   Any modification of this file should ensure that the copyright and  *
+%   license information is placed in the derived files.                 *
+%                                                                       *
+% -----------------------------------------------------------------------
+%
+%<*internal>
+\iffalse
+%</internal>
+%
+%<*readme>
+[![CTAN Version](https://img.shields.io/ctan/v/fancydoc)](https://ctan.org/pkg/fancydoc)
+[![GitHub Release](https://img.shields.io/github/v/release/myhsia/fancydoc)](https://github.com/myhsia/fancydoc/releases/latest)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/myhsia/fancydoc)](https://github.com/myhsia/fancydoc/commits)
+[![Actions Status](https://github.com/myhsia/fancydoc/actions/workflows/main.yaml/badge.svg?branch=main)](https://github.com/myhsia/fancydoc/actions)
+[![GitHub Repo stars](https://img.shields.io/github/stars/myhsia/fancydoc)](https://github.com/myhsia/fancydoc)
+
+The `fancydoc` Package
+=================================
+
+The `fancydoc` package is an extension for documenting the LaTeX source files.
+It is based on the `doc` package and compatible with the `l3doc` classes.
+
+Overview
+--------
+
+To load this template, write the line
+
+    \usepackage[<options>]{fancydoc}
+
+See `fancydoc.pdf` for more. Happy TeXing!
+
+Issues
+------
+
+The issue tracker for `fancydoc` is currently located
+[on GitHub](https://github.com/myhsia/fancydoc/issues).
+
+Build status
+------------
+
+This project uses [GitHub Actions](https://github.com/features/actions)
+as a hosted continuous integration service. For each commit, the build status
+is tested using the current release of TeX Live.
+
+_Current build status:_ ![build status](https://github.com/myhsia/fancydoc/actions/workflows/main.yaml/badge.svg?branch=main)
+
+Copyright and License
+---------------------
+
+Copyright (C) 2026 by Mingyu Xia \<xiamingyu@westlake.edu.cn\>
+
+This work may be distributed and/or modified under the conditions
+of the LaTeX Project Public License (LPPL), either version 1.3c of
+this license or (at your option) any later version.
+The latest version of this license is in
+
+    http://www.latex-project.org/lppl.txt
+
+and version 1.3c or later is part of all distributions of LaTeX
+version 2008 or later.
+
+This work has the LPPL maintenance status `maintained`.
+
+The Current Maintainer of this work is **Mingyu Xia**.
+%</readme>
+%
+%<*internal>
+\fi
+%</internal>
+%
+%<*package>
+%<+!driver>\GetIdInfo $Id: fancydoc.dtx v0.0.1 2026-06-07 myhsia<myhsia@outlook.com>$
+%<package>  {Extension for documenting the LaTeX source files}
+%<package>\ProvidesExplPackage {\ExplFileName}
+%<!driver>  {\ExplFileDate} {\ExplFileVersion} {\ExplFileDescription}
+%<package>\edef \DocFileDate        {\ExplFileDate}
+%<package>\edef \DocFileVersion     {\ExplFileVersion}
+%<package>\edef \DocFileDescription {\ExplFileDescription}
+%<package>\tl_greplace_all:Nnn \DocFileDate { / } { - }
+%</package>
+%<*driver>
+\documentclass[11pt, letterpaper, cs-break = true]{l3doc}
+\usepackage{fancydoc}
+\usepackage[osf, mono = false]{libertine}
+\newcommand \mail[1] {\href{mailto:#1}{\ttfamily #1}}
+\makeindex
+\begin{document}
+  \DocInput{\jobname.dtx}
+  \clearpage
+% \PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \begin{documentation}
+%
+% \title{\bfseries
+%   The \pkg{fancydoc} Package\thanks{^^A
+%     \url{https://ctan.org/pkg/fancydoc},\
+%     \url{https://github.com/myhsia/fancydoc}^^A
+%   }^^A
+% }
+% \author{Mingyu Xia\thanks{\mail{xiamingyu@westlake.edu.cn}}}
+% \date{Released \DocFileDate\quad \texttt{\DocFileVersion}}
+% \maketitle
+% \begin{abstract}
+% \end{abstract}
+%
+% \section{Load the Package with Options}
+%
+% \begin{quote}
+%   "\usepackage[(basic|full), color = "\meta{HTML}"]{fancydoc}"
+% \end{quote}
+%
+% \section{User's Interfaces}
+%
+% \begin{function}{\key}
+%   \begin{syntax}
+%     \tn{key} \meta{*} \oarg{font} \marg{comma list}
+%   \end{syntax}
+%   
+% For example,
+% \iffalse
+%<*example>
+% \fi
+\begin{codedemo}[2]
+  \key[\slshape]{keya, keyb, keyc},
+  \key*[\slshape]{option}
+\end{codedemo}
+\key[\slshape]{keya, keyb, keyc}, \key*[\slshape]{option, a}
+% \iffalse
+%</example>
+% \fi
+% \end{function}
+%
+% \begin{function}{\TTF, \TFF}
+%   Shortcut for typeset Boolean choice with default value.
+%   \tn{TTF} will output \TTF, and \tn{TFF} will output \TFF.
+% \end{function}
+%
+% \end{documentation}
+%
+% \StopEventually{\PrintIndex}
+% \clearpage \appendix
+%
+% \begin{implementation}
+% \section{The source code}
+% Using |codedoc| as the namespace.
+%    \begin{macrocode}
+%<@@=codedoc>
+%    \end{macrocode}
+% Start the optionlist |package| for \pkg{l3docstrip}.
+%    \begin{macrocode}
+%<*package>
+%    \end{macrocode}
+% Overwrite \tn{prepare@family@series@update} again under \hologo{pLaTeX} and
+% \hologo{upLaTeX} to resolve the error raised by |\settowidth\MacroIndent| in
+% the \pkg{doc} package.
+%    \begin{macrocode}
+\bool_lazy_or:nnT { \sys_if_engine_ptex_p: } { \sys_if_engine_uptex_p: }
+  {    
+    \def\prepare@family@series@update#1#2{%
+      \def\@currentmetafamily{#1}%
+      \if@forced@series
+        \fontfamily#2%
+      \else
+        \expand@font@defaults
+        \let\target@series@value\@empty
+        \expandafter\edef\csname ??def@ult\endcsname{\f@family}%
+        \let\@elt\update@series@target@value
+            \@meta@family@list
+            \@elt{??}%
+        \let\@elt\relax
+        \fontfamily#2%
+        \ifx\target@series@value\@empty
+        \else
+          \ifx \f@series\target@series@value
+          \else
+            \maybe@load@fontshape
+            \series@maybe@drop@one@m\target@series@value\f@series
+          \fi
+        \fi
+      \fi
+    }
+  }
+%    \end{macrocode}
+% Patch the font of the \env{macrocode} environment.
+%    \begin{macrocode}
+\hook_gput_code:nnn { cmd / macro@font / after } { . }
+  { \ttfamily }
+%    \end{macrocode}
+% Patch the macro \cs{meta} in the \cls{l3doc} class and the \pkg{doc} package.
+% Since the \cls{l3doc} package has already loaded the \pkg{doc} package,
+% a branch is required.
+%    \begin{macrocode}
+\cs_if_exist:cTF { ver@l3doc.cls }
+%    \end{macrocode}
+% Under the \cls{l3doc} class, surround \cs{hbox:n} to the argument of the
+% kernel function \cs{__codedoc_meta_original:n} of the \tn{meta} macro.
+%    \begin{macrocode}
+  {
+    \cs_set_eq:NN \__codedoc_meta_patch:n \__codedoc_meta_original:n
+    \cs_set_protected:Npn \__codedoc_meta_original:n #1
+      { \__codedoc_meta_patch:n { \hbox:n {#1} } }
+  }
+%    \end{macrocode}
+% Under other classes, load the \cls{doc} package then take the same trick as in
+% the \cls{l3doc} class.
+%    \begin{macrocode}
+  {
+    \RequirePackage { doc }
+    \cs_set_eq:NN \__codedoc_meta_patch:n \meta
+    \DeclareDocumentCommand \meta { m }
+      { \__codedoc_meta_patch:n { \hbox:n {#1} } }
+  }
+%    \end{macrocode}
+% \begin{macro}{\key}
+%    \begin{macrocode}
+\DeclareDocumentCommand \key { s O {} m }
+  {
+    \IfBooleanTF {#1}
+      {
+        \color_group_begin:
+        \color_select:n { red } \bfseries \ttfamily #2 #3
+        \color_group_end:
+      }
+      {
+        \group_begin:
+        \seq_set_from_clist:Nn \l_tmpa_seq {#3}
+        \seq_set_map:NNn \l_tmpb_seq \l_tmpa_seq
+          {
+            \exp_not:n
+              {
+                \color_group_begin:
+                \color_select:n { red } \bfseries \ttfamily #2 ##1
+                \color_group_end:
+              }
+          }
+        \seq_use:Nn \l_tmpb_seq { ,~ } ~ = ~
+        \group_end:
+      }
+  }
+\DeclareCommandCopy \val \meta
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\TTF, \TFF}
+%    \begin{macrocode}
+\DeclareDocumentCommand \TTF {}
+  {
+    \group_begin:
+      \ttfamily \underline
+        {
+          \textbf{\upshape \color_select:n { red } true}
+        } \textbar false
+    \group_end:
+  }
+\DeclareDocumentCommand \TFF {}
+  {
+    \group_begin:
+      \ttfamily true \textbar \underline
+        {
+          \textbf{\upshape \color_select:n { red } false}
+        }
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+% \DescribeEnv{codedemo}
+%    \begin{macrocode}
+\iow_new:N \l_@@_codedemo_iow
+\tl_set:Nn \l_@@_codedemo_name_tl {\jobname.codedemo.aux}
+\cs_new:Npn \@@_codedemo_start:
+  {
+    \group_begin:
+      \@bsphack
+      \iow_open:Nn \l_@@_codedemo_iow { \l_@@_codedemo_name_tl }
+      \let \do \char_set_catcode_other:N \dospecials
+      \char_set_catcode_active:N \^^M
+      \cs_set:Npn \verbatim@processline
+        {
+          \exp_args:NNo \iow_now:Nn
+            \l_@@_codedemo_iow { \int_use:N \verbatim@line }
+        }
+      \verbatim@start
+  }
+\cs_new:Npn \@@_codedemo_end: #1
+  {
+      \iow_close:N \l_@@_codedemo_iow
+      \@esphack
+    \group_end:
+    \char_set_catcode_comment:N \%
+    \par \smallskip \noindent
+    \fbox {
+      \parbox[c][#1]{.6\linewidth}
+        { \small \verbatiminput \l_@@_codedemo_name_tl }
+      }%
+    \hfill
+    \fbox{\parbox[c][#1]{.36\linewidth}
+      { \centering \normalsize \file_input:n { \l_@@_codedemo_name_tl } }
+    }
+    \par \smallskip
+    \char_set_catcode_ignore:N \%
+  }
+\NewDocumentEnvironment { codedemo } { O { 1 } }
+  { \@@_codedemo_start: } { \@@_codedemo_end: { #1\baselineskip } }
+%    \end{macrocode}
+%    \begin{macrocode}
+\newlist{keyval}{itemize}{10}
+\setlist[keyval]{leftmargin = 0pt, labelsep = 0pt}
+%    \end{macrocode}
+% End the optionlist |package| for \pkg{l3docstrip}.
+%    \begin{macrocode}
+%</package>
+%    \end{macrocode}
+% Restore the namespace.
+%    \begin{macrocode}
+%<@@=>
+%    \end{macrocode}
+% \iffalse
+%<*package>
+%<!driver>\file_input_stop:
+%</package>
+% \fi
+% \end{implementation}
