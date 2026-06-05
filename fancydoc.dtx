@@ -143,14 +143,14 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %
 % \begin{function}{\keys}
 %   \begin{syntax}
-%     \tn{keys} \oarg{font} \marg{comma list}
+%     \tn{keys} \oarg{options} \marg{comma list}
 %   \end{syntax}
 %   
 % For example,
 % \iffalse
 %<*example>
 % \fi
-\begin{codedemo}[1]
+\begin{codedemo}
   \keys[font = \slshape]{keya, keyb, keyc}
 \end{codedemo}
 % \iffalse
@@ -224,9 +224,9 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % kernel function \cs{__codedoc_meta_original:n} of the \tn{meta} macro.
 %    \begin{macrocode}
   {
-    \cs_set_eq:NN \__codedoc_meta_patch:n \__codedoc_meta_original:n
-    \cs_set_protected:Npn \__codedoc_meta_original:n #1
-      { \__codedoc_meta_patch:n { \hbox:n {#1} } }
+    \cs_set_eq:NN \@@_meta_patch:n \@@_meta_original:n
+    \cs_set_protected:Npn \@@_meta_original:n #1
+      { \@@_meta_patch:n { \hbox:n {#1} } }
   }
 %    \end{macrocode}
 % Under other classes, load the \cls{doc} package then take the same trick as in
@@ -234,9 +234,9 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %    \begin{macrocode}
   {
     \RequirePackage { doc }
-    \cs_set_eq:NN \__codedoc_meta_patch:n \meta
+    \cs_set_eq:NN \@@_meta_patch:n \meta
     \DeclareDocumentCommand \meta { m }
-      { \__codedoc_meta_patch:n { \hbox:n {#1} } }
+      { \@@_meta_patch:n { \hbox:n {#1} } }
   }
 %    \end{macrocode}
 % \begin{macro}{\keys}
@@ -314,15 +314,20 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \end{macro}
 % \DescribeEnv{codedemo}
 %    \begin{macrocode}
+\RequirePackage { verbatim }
+\DeclareDocumentEnvironment { codedemo } { }
+  { \@@_codedemo_start: } { \@@_codedemo_end: }
 \iow_new:N \l_@@_codedemo_iow
-\tl_set:Nn \l_@@_codedemo_name_tl {\jobname.codedemo.aux}
-\cs_new:Npn \@@_codedemo_start:
+\ior_new:N \l_@@_codedemo_ior
+\int_new:N \l_@@_codedemo_int
+\tl_set:Nn \l_@@_codedemo_name_tl {\jobname.codedemo.vrb}
+\cs_new_protected:Npn \@@_codedemo_start:
   {
     \group_begin:
       \@bsphack
       \iow_open:Nn \l_@@_codedemo_iow { \l_@@_codedemo_name_tl }
-      \let \do \char_set_catcode_other:N \dospecials
-      \char_set_catcode_active:N \^^M
+      \let \do \char_set_catcode_other:N
+      \dospecials \char_set_catcode_active:N \^^M
       \cs_set:Npn \verbatim@processline
         {
           \exp_args:NNo \iow_now:Nn
@@ -330,41 +335,33 @@ The Current Maintainer of this work is **Mingyu Xia**.
         }
       \verbatim@start
   }
-\cs_new:Npn \@@_codedemo_end:n #1
+\cs_new_protected:Npn \@@_codedemo_end:
   {
       \iow_close:N \l_@@_codedemo_iow
       \@esphack
     \group_end:
     \char_set_catcode_comment:N \%
-    \keys_set:nn { @@ / codedemo } {#1}
+    \ior_open:Nn \l_@@_codedemo_ior { \l_@@_codedemo_name_tl }
+    \int_zero:N \l_@@_codedemo_int
+    \ior_map_inline:Nn \l_@@_codedemo_ior
+      { \int_incr:N \l_@@_codedemo_int }
     \par \smallskip \noindent
     \fbox
       {
-        \parbox[c][\l_@@_codedemo_lines_int \baselineskip]
-          { \fp_eval:n { .96 * \l_@@_codedemo_ratio_fp } \linewidth }
+        \parbox[c][\l_@@_codedemo_int \baselineskip]
+          { \fp_eval:n { .96 * .625 } \linewidth }
           { \small \verbatiminput \l_@@_codedemo_name_tl }
       }
     \hfill
     \fbox
       {
-        \parbox[c][\l_@@_codedemo_lines_int \baselineskip]
-          { \fp_eval:n { .96 * (1 - \l_@@_codedemo_ratio_fp) } \linewidth }
-          { \normalsize \file_input:n { \l_@@_codedemo_name_tl } }
+        \parbox[c][\l_@@_codedemo_int \baselineskip]
+          { \fp_eval:n { .96 * (1 - .625) } \linewidth }
+          { \file_input:n { \l_@@_codedemo_name_tl } }
       }
     \par \smallskip
     \char_set_catcode_ignore:N \%
   }
-\keys_define:nn { @@ / codedemo }
-  {
-    ratio   .fp_set:N  = \l_@@_codedemo_ratio_fp,
-      ratio .initial:n = { .625 },
-    lines   .int_set:N = \l_@@_codedemo_lines_int,
-      lines.initial:n  = { 1 },
-    unknown.code:n     = \tl_if_novalue:nF {#1}
-      { \tl_set_eq:NN \l_@@_codedemo_lines_int \l_keys_key_tl }
-  }
-\NewDocumentEnvironment { codedemo } { O {} }
-  { \@@_codedemo_start: } { \@@_codedemo_end:n {#1} }
 %    \end{macrocode}
 %    \begin{macrocode}
 \newlist{keyval}{itemize}{10}
