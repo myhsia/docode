@@ -114,7 +114,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 \begin{document}
   \DocInput{\jobname.dtx}
   \clearpage
-% \PrintIndex
+  \PrintIndex
 \end{document}
 %</driver>
 % \fi
@@ -136,7 +136,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \section{Load the Package with Options}
 %
 % \begin{quote}
-%   "\usepackage[(basic|full), color = "\meta{HTML}"]{fancydoc}"
+%   "\usepackage[color = "\meta{color}"]{fancydoc}"
 % \end{quote}
 %
 % \section{User's Interfaces}
@@ -151,16 +151,22 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %<*example>
 % \fi
 \begin{codedemo}
-  \keys[font = \slshape]{keya, keyb, keyc}
+  \keys [font = \sl] {keya, keyb, keyc}\\
+  \keys [emph = 2, delimiter = \textbar]
+        {true, false, not given}
 \end{codedemo}
 % \iffalse
 %</example>
 % \fi
 % \end{function}
 %
-% \begin{function}{\TTF, \TFF}
-%   Shortcut for typeset Boolean choice with default value.
-%   \tn{TTF} will output \TTF, and \tn{TFF} will output \TFF.
+% \begin{function}{\TF, \TTF, \TFF}
+%   Shortcut for typeset Boolean choices.
+% \begin{itemize}
+%   \item \tn{TF}| | will output \TF,
+%   \item \tn{TTF}   will output \TTF, and
+%   \item \tn{TFF}   will output \TFF.
+% \end{itemize}
 % \end{function}
 %
 % \end{documentation}
@@ -178,8 +184,24 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %    \begin{macrocode}
 %<*package>
 %    \end{macrocode}
+% Define the package options.
+%    \begin{macrocode}
+\keys_define:nn { @@ / pkgoption }
+  {
+    color   .tl_gset:N = \g_@@_color_tl,
+      color .initial:n = { black },
+  }
+%    \end{macrocode}
+% Process the class options.
+%    \begin{macrocode}
+\ProcessKeyOptions [ @@ / pkgoption ]
+%    \end{macrocode}
+% Load the dependencies.
+%    \begin{macrocode}
+\RequirePackage { xcolor, enumitem, verbatim }
+%    \end{macrocode}
 % Overwrite \tn{prepare@family@series@update} again under \hologo{pLaTeX} and
-% \hologo{upLaTeX} to resolve the error raised by |\settowidth\MacroIndent| in
+% \hologo{upLaTeX} to resolve the error raised by |\settowidth \MacroIndent| in
 % the \pkg{doc} package.
 %    \begin{macrocode}
 \bool_lazy_or:nnT { \sys_if_engine_ptex_p: } { \sys_if_engine_uptex_p: }
@@ -214,7 +236,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 \hook_gput_code:nnn { cmd / macro@font / after } { . }
   { \ttfamily }
 %    \end{macrocode}
-% Patch the macro \cs{meta} in the \cls{l3doc} class and the \pkg{doc} package.
+% Patch the macro \tn{meta} in the \cls{l3doc} class and the \pkg{doc} package.
 % Since the \cls{l3doc} package has already loaded the \pkg{doc} package,
 % a branch is required.
 %    \begin{macrocode}
@@ -245,76 +267,88 @@ The Current Maintainer of this work is **Mingyu Xia**.
   {
     font        .tl_set:N  = \l_@@_keys_font_tl,
     color       .tl_set:N  = \l_@@_keys_color_tl,
-      color     .initial:n = { red },
+      color     .initial:o = { \g_@@_color_tl },
     delimiter   .tl_set:N  = \l_@@_keys_delimiter_tl,
       delimiter .initial:n = { ,~ },
+    emph        .int_set:N = \l_@@_keys_emph_int,
+      emph      .initial:n = { 0 },
   }
 \DeclareDocumentCommand \keys { O {} m }
   {
     \group_begin:
       \keys_set:nn { @@ / keys } {#1}
-      \@@_keys_aux:nnnn
-        { \l_@@_keys_color_tl     } { \l_@@_keys_font_tl }
-        { \l_@@_keys_delimiter_tl } {#2}
+      \@@_keys_aux:nnnnn
+        {#2} { \l_@@_keys_emph_int          } { \l_@@_keys_delimiter_tl }
+             { \l_@@_keys_font_tl \ttfamily } { \l_@@_keys_color_tl     }
     \group_end:
   }
 %    \end{macrocode}
-% \begin{multicols}{4}
 % \begin{arguments}
-%   \item color,
-%   \item font,
+%   \item comma list,
+%   \item the number of the element to be emphised,
 %   \item delimiter,
-%   \item clist,
+%   \item font (works for the key and delimiter),
+%   \item color (works only for the key),
 % \end{arguments}
-% \end{multicols}
+% Constant variables.
 %    \begin{macrocode}
-\cs_new_protected:Npn \@@_keys_aux:nnnn #1#2#3#4
+\tl_const:Nn \g_@@_true_tl  { true  }
+\tl_const:Nn \g_@@_false_tl { false }
+\tl_const:Nn \g_@@_vbar
+  { \sys_if_engine_opentype:TF { \textbar } { | } }
+%    \end{macrocode}
+%    \begin{macrocode}
+\cs_new_protected_nopar:Npn \@@_keys_aux:nnnnn #1#2#3#4#5
   {
     \group_begin:
-      \seq_set_from_clist:Nn \l_tmpa_seq {#4}
+      \seq_set_from_clist:Nn \l_tmpa_seq {#1}
+      \int_if_zero:nF {#2}
+        {
+          \seq_gset_item:Nnn \l_tmpa_seq {#2}
+            { \@@_keys_emph:nn { red } { \clist_item:nn {#1} {#2} } }
+        }
       \seq_set_map:NNn \l_tmpb_seq \l_tmpa_seq
         {
-          #2 \exp_not:n
-            {
-              \color_group_begin:
-                \exp_args:No \color_select:n {#1}
-                \bfseries \ttfamily ##1
-              \color_group_end:
-            }
+          \color_group_begin:
+            \exp_args:No \color_select:n {#5} ##1
+          \color_group_end:
         }
-      \seq_use:Nn \l_tmpb_seq {#3}
+      #4 \seq_use:Nn \l_tmpb_seq {#3}
+    \group_end:
+  }
+\cs_new_protected_nopar:Npn \@@_keys_emph:nn #1#2
+  {
+    \group_begin:
+      \upshape \bfseries \exp_args:No \color_select:n {#1} #2
     \group_end:
   }
 \DeclareCommandCopy \val \meta
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\TTF, \TFF}
+% \begin{macro}{\TF, \TTF, \TFF}
 %    \begin{macrocode}
+\DeclareDocumentCommand \TF {}
+  {
+    \@@_keys_aux:nnnnn
+      { \g_@@_true_tl,    \g_@@_false_tl } { \c_zero_int }
+      { \textup \g_@@_vbar } { \ttfamily } { \g_@@_color_tl }
+  }
 \DeclareDocumentCommand \TTF {}
   {
-    \group_begin:
-      \@@_keys_aux:nnnn { black } { \ttfamily } { \textbar }
-        {
-          \underline { \textbf { \upshape \color_select:n { red } true } },
-          false
-        }
-    \group_end:
+    \@@_keys_aux:nnnnn
+      { \g_@@_true_tl,    \g_@@_false_tl } { 1 }
+      { \textup \g_@@_vbar } { \ttfamily } { \g_@@_color_tl }
   }
 \DeclareDocumentCommand \TFF {}
   {
-    \group_begin:
-      \@@_keys_aux:nnnn { black } { \ttfamily } { \textbar }
-      {
-        true,
-        \underline { \textbf { \upshape \color_select:n { red } false } }
-      }
-    \group_end:
+    \@@_keys_aux:nnnnn
+      { \g_@@_true_tl,    \g_@@_false_tl } { 2 }
+      { \textup \g_@@_vbar } { \ttfamily } { \g_@@_color_tl }
   }
 %    \end{macrocode}
 % \end{macro}
 % \DescribeEnv{codedemo}
 %    \begin{macrocode}
-\RequirePackage { verbatim }
 \DeclareDocumentEnvironment { codedemo } { }
   { \@@_codedemo_start: } { \@@_codedemo_end: }
 \iow_new:N \l_@@_codedemo_iow
