@@ -8,7 +8,8 @@ The `fancydoc` Package
 =================================
 
 The `fancydoc` package is an extension for documenting the LaTeX source files.
-It is based on the `doc` package and compatible with the `l3doc` classes.
+It is based on the `doc` package and works smoothly under the `l3doc`, `ltxdoc`,
+and `article` classes.
 
 Overview
 --------

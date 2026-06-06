@@ -45,7 +45,8 @@ The `fancydoc` Package
 =================================
 
 The `fancydoc` package is an extension for documenting the LaTeX source files.
-It is based on the `doc` package and compatible with the `l3doc` classes.
+It is based on the `doc` package and works smoothly under the `l3doc`, `ltxdoc`,
+and `article` classes.
 
 Overview
 --------
@@ -107,7 +108,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %</package>
 %<*driver>
 \documentclass[11pt, letterpaper, cs-break = true]{l3doc}
-\usepackage{fancydoc}
+\usepackage{fancydoc, microtype}
 \usepackage[osf, mono = false]{libertine}
 \newcommand \mail[1] {\href{mailto:#1}{\ttfamily #1}}
 \makeindex
@@ -131,15 +132,29 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \date{Released \DocFileDate\quad \texttt{\DocFileVersion}}
 % \maketitle
 % \begin{abstract}
+%   The \pkg{fancydoc} package is an extension for documenting the \LaTeX\
+%   source files. It is based on the \pkg{doc} package and works smoothly under
+%   the \cls{l3doc}, \cls{ltxdoc}, and~\cls{article} classes.
 % \end{abstract}
 %
-% \section{Load the Package with Options}
+% \section{Loading the Package}
 %
+% Write a line in the preamble
 % \begin{quote}
 %   "\usepackage[color = "\meta{color}"]{fancydoc}"
 % \end{quote}
 %
 % \section{User's Interfaces}
+%
+% \begin{function}{codedemo}
+%   \begin{syntax}
+%  |\begin{codedemo}|
+%  |  Code needs to be typeset in verbatim and demoed|
+%  |\end{codedemo}|
+%   \end{syntax}
+% Typeset the code on the left hand side and then execute the code and demo in
+% the right hand side.
+% \end{function}
 %
 % \begin{function}{\keys}
 %   \begin{syntax}
@@ -305,7 +320,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
       \int_if_zero:nF {#2}
         {
           \seq_gset_item:Nnn \l_tmpa_seq {#2}
-            { \@@_keys_emph:nn { red } { \clist_item:nn {#1} {#2} } }
+            { \@@_keys_emph:n { \clist_item:nn {#1} {#2} } }
         }
       \seq_set_map:NNn \l_tmpb_seq \l_tmpa_seq
         {
@@ -316,10 +331,10 @@ The Current Maintainer of this work is **Mingyu Xia**.
       #4 \seq_use:Nn \l_tmpb_seq {#3}
     \group_end:
   }
-\cs_new_protected_nopar:Npn \@@_keys_emph:nn #1#2
+\cs_new_protected_nopar:Npn \@@_keys_emph:n #1
   {
     \group_begin:
-      \upshape \bfseries \exp_args:No \color_select:n {#1} #2
+      \upshape \bfseries \exp_args:No \color_select:n { red } #1
     \group_end:
   }
 \DeclareCommandCopy \val \meta
@@ -350,7 +365,9 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \DescribeEnv{codedemo}
 %    \begin{macrocode}
 \DeclareDocumentEnvironment { codedemo } { }
-  { \@@_codedemo_start: } { \@@_codedemo_end: }
+  { \@@_codedemo_start: } { \@@_codedemo_end:Nn \c_false_bool { .625 } }
+\DeclareDocumentEnvironment { codedemo* } { }
+  { \@@_codedemo_start: } { \@@_codedemo_end:Nn \c_true_bool  { .625 } }
 \iow_new:N \l_@@_codedemo_iow
 \ior_new:N \l_@@_codedemo_ior
 \int_new:N \l_@@_codedemo_int
@@ -369,7 +386,8 @@ The Current Maintainer of this work is **Mingyu Xia**.
         }
       \verbatim@start
   }
-\cs_new_protected:Npn \@@_codedemo_end:
+\setlength \fboxsep {0pt}
+\cs_new_protected:Npn \@@_codedemo_end:Nn #1#2
   {
       \iow_close:N \l_@@_codedemo_iow
       \@esphack
@@ -382,16 +400,24 @@ The Current Maintainer of this work is **Mingyu Xia**.
     \par \smallskip \noindent
     \fbox
       {
+        \null \skip_horizontal:n { 2ex }
         \parbox[c][\l_@@_codedemo_int \baselineskip]
-          { \fp_eval:n { .96 * .625 } \linewidth }
-          { \small \verbatiminput \l_@@_codedemo_name_tl }
+          {
+            \bool_if:NF #1 { \fp_eval:n { .96 *      #2  } } \linewidth
+            \bool_if:NT #1 { - 2ex }
+          }
+          { \small \verbatiminput \l_@@_codedemo_name_tl                      }
       }
-    \hfill
+    \bool_if:NTF #1 { \par \skip_vertical:n { -1.5pt } \noindent } { \hfill }
     \fbox
       {
+        \null \skip_horizontal:n { 2ex }
         \parbox[c][\l_@@_codedemo_int \baselineskip]
-          { \fp_eval:n { .96 * (1 - .625) } \linewidth }
-          { \file_input:n { \l_@@_codedemo_name_tl } }
+          {
+            \bool_if:NF #1 { \fp_eval:n { .96 * (1 - #2) } } \linewidth
+            - 2ex
+          }
+          { \file_input:n  { \l_@@_codedemo_name_tl }                         }
       }
     \par \smallskip
     \char_set_catcode_ignore:N \%
