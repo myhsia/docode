@@ -1,6 +1,6 @@
 \iffalse meta-comment
 
-File: fancydoc.ins
+File: docode.ins
 -----------------------------------------------------------------------
   Copyright (C) 2026 by Mingyu Xia <myhsia@outlook.com>               *
 -----------------------------------------------------------------------
@@ -18,10 +18,10 @@ File: fancydoc.ins
                                                                       *
   The Current Maintainer of this work is Mingyu Xia.                  *
 -----------------------------------------------------------------------
-  This work consists of the files fancydoc.dtx,                       *
-                                  fancydoc.ins,                       *
-                the derived files fancydoc.sty,                       *
-          the documentation files fancydoc.pdf,                       *
+  This work consists of the files docode.dtx,                         *
+                                  docode.ins,                         *
+                the derived files docode.sty,                         *
+          the documentation files docode.pdf,                         *
                               and README.md.                          *
 -----------------------------------------------------------------------
                                                                       *
@@ -57,10 +57,10 @@ File: fancydoc.ins
 
 \postamble
 -----------------------------------------------------------------------
-  This work consists of the files fancydoc.dtx,                       *
-                                  fancydoc.ins,                       *
-                the derived files fancydoc.sty,                       *
-          the documentation files fancydoc.pdf,                       *
+  This work consists of the files docode.dtx,                         *
+                                  docode.ins,                         *
+                the derived files docode.sty,                         *
+          the documentation files docode.pdf,                         *
                               and README.md.                          *
 -----------------------------------------------------------------------
 \endpostamble
@@ -68,9 +68,9 @@ File: fancydoc.ins
 \keepsilent
 
 \generate{
-  \usedir{tex/latex/fancydoc}
-    \file{fancydoc.sty}                  {\from{\jobname.dtx}{package}}
-  \usedir{doc/latex/fancydoc}
+  \usedir{tex/latex/docode}
+    \file{docode.sty}                    {\from{\jobname.dtx}{package}}
+  \usedir{doc/latex/docode}
   \nopreamble\nopostamble
     \file{README.md}                     {\from{\jobname.dtx}{readme} }
 }
@@ -78,4 +78,4 @@ File: fancydoc.ins
 \endbatchfile
 \endinput
 %%
-%% End of file `fancydoc.ins'
+%% End of file `docode.ins'

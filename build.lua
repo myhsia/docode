@@ -9,7 +9,7 @@
              Do Check Before Push
 --]==========================================]--
 
-module              = "fancydoc"
+module              = "docode"
 version             = "v0.0.1"
 date                = "2026-06-07"
 maintainer          = "Mingyu Xia"
@@ -18,7 +18,7 @@ maintainid          = "myhsia"
 email               = "myhsia@outlook.com"
 repository          = "https://github.com/" .. maintainid .. "/" .. module
 summary             = "Extension for documenting the LaTeX source files"
-description         = "The `fancydoc` package is an extension for documenting the LaTeX source files."
+description         = "The `docode` package is an extension for documenting the LaTeX source files."
 
 --[==========================================[--
           Build, Pack, Tag, and Upload
