@@ -108,7 +108,8 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %</package>
 %<*driver>
 \documentclass[11pt, letterpaper, cs-break = true]{l3doc}
-\usepackage{fancydoc, microtype}
+\usepackage[color = 4169E1]{fancydoc}
+\usepackage{microtype}
 \usepackage[osf, mono = false]{libertine}
 \newcommand \mail[1] {\href{mailto:#1}{\ttfamily #1}}
 \makeindex
@@ -141,19 +142,18 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %
 % Write a line in the preamble
 % \begin{quote}
-%   "\usepackage[color = "\meta{color}"]{fancydoc}"
+%   "\usepackage[color = "\meta{l3color\textup\textbar HTML}"]{fancydoc}"
 % \end{quote}
-%
 % \section{User's Interfaces}
 %
-% \begin{function}{codedemo}
+% \begin{function}{codedemo, codedemo*}
 %   \begin{syntax}
 %  |\begin{codedemo}|
 %  |  Code needs to be typeset in verbatim and demoed|
 %  |\end{codedemo}|
 %   \end{syntax}
 % Typeset the code on the left hand side and then execute the code and demo in
-% the right hand side.
+% the right hand side, while the star version will put the code above the demo.
 % \end{function}
 %
 % \begin{function}{\keys}
@@ -183,6 +183,10 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %   \item \tn{TFF}   will output \TFF.
 % \end{itemize}
 % \end{function}
+% \makeatletter
+% \begin{keyval}
+%   \item [\keys{keya, keyb}]\meta{}
+% \end{keyval}
 %
 % \end{documentation}
 %
@@ -203,8 +207,13 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %    \begin{macrocode}
 \keys_define:nn { @@ / pkgoption }
   {
-    color   .tl_gset:N = \g_@@_color_tl,
-      color .initial:n = { black },
+    color   .code:n    =
+      {
+        \color_if_exist:nTF {#1}
+          { \color_set:nn  { docolor }          {#1} }
+          { \color_set:nnn { docolor } { HTML } {#1} }
+      },
+      color .initial:n = { black }
   }
 %    \end{macrocode}
 % Process the class options.
@@ -282,9 +291,9 @@ The Current Maintainer of this work is **Mingyu Xia**.
   {
     font        .tl_set:N  = \l_@@_keys_font_tl,
     color       .tl_set:N  = \l_@@_keys_color_tl,
-      color     .initial:o = { \g_@@_color_tl },
+      color     .initial:o = { docolor },
     delimiter   .tl_set:N  = \l_@@_keys_delimiter_tl,
-      delimiter .initial:n = { ,~ },
+      delimiter .initial:n = { ,\, },
     emph        .int_set:N = \l_@@_keys_emph_int,
       emph      .initial:n = { 0 },
   }
@@ -295,6 +304,8 @@ The Current Maintainer of this work is **Mingyu Xia**.
       \@@_keys_aux:nnnnn
         {#2} { \l_@@_keys_emph_int          } { \l_@@_keys_delimiter_tl }
              { \l_@@_keys_font_tl \ttfamily } { \l_@@_keys_color_tl     }
+      \tl_if_eq:NnT \@currenvir    { keyval }
+        { \l_@@_keys_font_tl \ttfamily \, = \, }
     \group_end:
   }
 %    \end{macrocode}
@@ -346,19 +357,19 @@ The Current Maintainer of this work is **Mingyu Xia**.
   {
     \@@_keys_aux:nnnnn
       { \g_@@_true_tl,    \g_@@_false_tl } { \c_zero_int }
-      { \textup \g_@@_vbar } { \ttfamily } { \g_@@_color_tl }
+      { \textup \g_@@_vbar } { \ttfamily } { docolor }
   }
 \DeclareDocumentCommand \TTF {}
   {
     \@@_keys_aux:nnnnn
       { \g_@@_true_tl,    \g_@@_false_tl } { 1 }
-      { \textup \g_@@_vbar } { \ttfamily } { \g_@@_color_tl }
+      { \textup \g_@@_vbar } { \ttfamily } { docolor }
   }
 \DeclareDocumentCommand \TFF {}
   {
     \@@_keys_aux:nnnnn
       { \g_@@_true_tl,    \g_@@_false_tl } { 2 }
-      { \textup \g_@@_vbar } { \ttfamily } { \g_@@_color_tl }
+      { \textup \g_@@_vbar } { \ttfamily } { docolor }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -401,7 +412,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
     \fbox
       {
         \null \skip_horizontal:n { 2ex }
-        \parbox[c][\l_@@_codedemo_int \baselineskip]
+        \parbox[c][\l_@@_codedemo_int \baselineskip + 1ex]
           {
             \bool_if:NF #1 { \fp_eval:n { .96 *      #2  } } \linewidth
             \bool_if:NT #1 { - 2ex }
@@ -412,7 +423,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
     \fbox
       {
         \null \skip_horizontal:n { 2ex }
-        \parbox[c][\l_@@_codedemo_int \baselineskip]
+        \parbox[c][\l_@@_codedemo_int \baselineskip + 1ex]
           {
             \bool_if:NF #1 { \fp_eval:n { .96 * (1 - #2) } } \linewidth
             - 2ex
