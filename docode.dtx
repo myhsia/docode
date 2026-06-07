@@ -109,7 +109,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %<*driver>
 \documentclass[11pt, letterpaper, cs-break = true]{l3doc}
 \usepackage[color = 00498F, ratio = .625]{docode}
-\usepackage{microtype}
+\usepackage{microtype, zref-clever}
 \usepackage[osf, mono = false]{libertine}
 \newcommand \mail[1] {\href{mailto:#1}{\ttfamily #1}}
 \makeindex
@@ -142,38 +142,37 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %
 % Write the line in the preamble
 % \begin{quote}
-%   "\usepackage[key-value list]{docode}"
+%   "\usepackage[options]{docode}"
 % \end{quote}
-% while the \oarg{key-value list} accepts
+% while the package \meta{options} accepts the following keys\label{pkgopt}
 % \begin{keyval}
-%   \item [\keys{color}] \meta{l3color\textup\textbar HTML}
+%   \item [\keys{color}] \meta{l3color\textup\textbar HTML}: The color of keys
+%   (Default: |black|).
+%   \item [\keys{font}] \meta{font macros}: Font of the keys.
+%   \item [\keys{delimiter}] \meta{string}: Delimiter between the keys
+%   (Default: |,\,|).
+%   \item [\keys{ratio}] \meta{fp num}: Ratio of the boxes' widths
+%   in~\env{codemo} environment (Default: |0.625|).
 % \end{keyval}
+%
 % \section{User's Interfaces}
 %
 % \begin{function}{\docodeset}
 %   \begin{syntax}
-%     \tn{docodeset} \marg{key-value list}
+%     \tn{docodeset} \marg{options}
 %   \end{syntax}
 %   The \tn{docodeset} can be used everywhere, and only the macros used in this
-%   package \emph{after} it will be influenced.
-% \end{function}
-%
-% \begin{function}{codemo, codemo*}
-%   \begin{syntax}
-%  |\begin{codemo(*)}|
-%  |  Code needs to be typeset in verbatim and demoed|
-%  |\end{codemo(*)}|
-%   \end{syntax}
-% Typeset the code on the left hand side and then execute the code and demo in
-% the right hand side, while the star version will put the code above the demo.
+%   package \emph{after} it will be influenced. The \meta{options} accepts the
+%   same keys as the package \meta{options} referred in~\zcref{pkgopt}.
 % \end{function}
 %
 % \begin{function}{\keys}
 %   \begin{syntax}
 %     \tn{keys} \oarg{options} \marg{comma list}
 %   \end{syntax}
-%   
-% For example,
+%   Typeset the keys with specific format. The \meta{options} accepts all the
+%   keys referred in~\zcref{pkgopt}, and also accepts the key \keys{emph} to
+%   assign \# of the keys will be emphasised.
 % \iffalse
 %<*example>
 % \fi
@@ -200,9 +199,23 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \fi
 % \end{function}
 % \docodeset{ratio = .625}
-% \begin{keyval}
-%   \item [\keys{keya, keyb}]\meta{}
-% \end{keyval}
+% \noindent \DescribeEnv{codemo, codemo*}
+% Typeset the code on the left hand side and then execute the code in the right
+% hand side, while the star version will put the code above the demo.
+% The effect has been demoed in the introduction of user's interfaces above.
+% \begin{quote}
+%  |\begin{codemo(*)}|\\
+%  |  Code needs to be typeset in verbatim and demoed|\\
+%  |\end{codemo(*)}|
+% \end{quote}
+% \noindent \DescribeEnv{keyval}
+% Itemize-type environment for typesetting the keys. The effect is the same as
+% the package options introduction of~\zcref{pkgopt} in this manual.
+% \begin{quote}
+% |\begin{keyval}|\\
+% |  \item [\keys{keya, keyb, keyc}]\meta{foo}|\\
+% |\end{keyval}|
+% \end{quote}
 %
 % \end{documentation}
 %
@@ -226,7 +239,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %     \g_@@_keys_delimiter_tl,
 %     \g_@@_codemo_ratio_fp
 %   }
-% Key–value definitions of the package option, separate the keys into two
+% Key–value definitions of the package options, separate the keys into two
 % groups. The first one, |@@ / pkgopt / keys|, is also used in \tn{keys}.
 %    \begin{macrocode}
 \keys_define:nn { @@ / pkgopt / keys }
@@ -348,15 +361,6 @@ The Current Maintainer of this work is **Mingyu Xia**.
     \group_end:
   }
 %    \end{macrocode}
-% \begin{multicols}{2}
-% \begin{arguments}
-%   \item comma list,
-%   \item \# of the element to be emphised,
-%   \item delimiter,
-%   \item font,
-%   \item color (works only for the key),
-% \end{arguments}
-% \end{multicols}
 % \begin{variable}{\l_@@_keys_emph_int}
 % Key–value definitions special for the \tn{keys} macro.
 %    \begin{macrocode}
@@ -366,7 +370,16 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \end{variable}
 % \end{macro}
 % \begin{macro}{\@@_keys_aux:nnnnn, \@@_keys_emph:n}
-% Auxiliary commands of \tn{keys}.
+% Auxiliary commands of the \tn{keys} macro.
+% \begin{multicols}{2}
+% \begin{arguments}
+%   \item comma list,
+%   \item \# of the element to be emphasised,
+%   \item delimiter,
+%   \item font,
+%   \item color (works only for the key),
+% \end{arguments}
+% \end{multicols}
 %    \begin{macrocode}
 \cs_new_protected_nopar:Npn \@@_keys_aux:nnnnn #1#2#3#4#5
   {
@@ -403,7 +416,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\@@_keys_TF_aux:n}
-% Auxiliary commands of \tn{TF}, \tn{TTF}, \tn{TFF}.
+% Auxiliary commands of the \tn{TF}, \tn{TTF}, \tn{TFF} macros.
 %    \begin{macrocode}
 \cs_new_protected_nopar:Npn \@@_keys_TF_aux:n #1
   {
@@ -427,7 +440,8 @@ The Current Maintainer of this work is **Mingyu Xia**.
 \newlist{keyval}{itemize}{10}
 \setlist[keyval]{leftmargin = 0pt, labelsep = 0pt}
 %    \end{macrocode}
-% \DescribeEnv{codemo, codedemo*}
+% \noindent \DescribeEnv{codemo, codemo*}
+% Environment for typesetting the code itself and the executing result.
 %    \begin{macrocode}
 \DeclareDocumentEnvironment { codemo  } { } { \@@_codemo_start: }
   {
@@ -441,9 +455,15 @@ The Current Maintainer of this work is **Mingyu Xia**.
   }
 %    \end{macrocode}
 % \begin{macro}{\@@_codemo_start:, \@@_codemo_end:Nn}
+% Auxiliary commands of the \env{codemo} environment.
 %    \begin{macrocode}
 \cs_new_protected:Npn \@@_codemo_start:
   {
+%    \end{macrocode}
+% The I/O streams part\footnote{By modifying \href
+%   {https://github.com/AlphaZTX/physics2/blob/main/doc/phy2docdef.tex}^^A
+%   {@AlphaZTX's \file{phy2docdef.tex}} magically using LaTeX3.}.
+%    \begin{macrocode}
     \group_begin:
       \@bsphack
       \iow_open:Nn \l_@@_codemo_iow { \l_@@_codemo_name_tl }
@@ -466,15 +486,19 @@ The Current Maintainer of this work is **Mingyu Xia**.
     \int_zero:N \l_@@_codemo_int
     \ior_map_inline:Nn \l_@@_codemo_ior
       { \int_incr:N \l_@@_codemo_int }
+%    \end{macrocode}
+% The typeset part.
+%    \begin{macrocode}
     \par \smallskip
     \group_begin:
       \dim_set:Nn \parindent { \c_zero_skip }
       \fbox
         {
+          \bool_if:NT #1 { \null \skip_horizontal:n { 2ex } }
           \parbox[c][\l_@@_codemo_int \baselineskip + 1ex]
             {
-              \bool_if:NF #1 { \fp_eval:n { #2 * .96       } }
-              \linewidth \bool_if:NT #1 { - 2ex }
+              \fp_eval:n { \bool_if:NTF #1 { 1 } {#2} * .96 }
+              \linewidth \bool_if:NT #1 { -.8pt }
             } { \small \verbatiminput \l_@@_codemo_name_tl }
         }
       \bool_if:NTF #1
@@ -484,8 +508,8 @@ The Current Maintainer of this work is **Mingyu Xia**.
           \null \skip_horizontal:n { 2ex }
           \parbox[c][\l_@@_codemo_int \baselineskip + 1ex]
             {
-              \bool_if:NF #1 { \fp_eval:n { .96 * (1 - #2) } }
-              \linewidth - 2ex
+              \fp_eval:n { \bool_if:NTF #1 { 1 } { (1 - #2) } * .96 }
+              \linewidth \bool_if:NTF #1 { -.8pt } { - 2ex }
             } { \file_input:n  { \l_@@_codemo_name_tl }    }
         }
       \par \smallskip
@@ -498,8 +522,9 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %     \l_@@_codemo_iow,
 %     \l_@@_codemo_ior,
 %     \l_@@_codemo_int,
-%     \l_@@_codemo_name_tl,
+%     \l_@@_codemo_name_tl
 %   }
+% Variables used in \cs{@@_codemo_start:} and \cs{@@_codemo_end:Nn}.
 %    \begin{macrocode}
 \iow_new:N   \l_@@_codemo_iow
 \ior_new:N   \l_@@_codemo_ior
