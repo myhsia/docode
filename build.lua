@@ -10,7 +10,7 @@
 --]==========================================]--
 
 module              = "docode"
-version             = "v0.1B"
+version             = "v0.1A"
 date                = "2026-06-07"
 maintainer          = "Mingyu Xia"
 uploader            = "Mingyu Xia"
