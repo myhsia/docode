@@ -10,7 +10,7 @@
 --]==========================================]--
 
 module              = "docode"
-version             = "v0.0.1"
+version             = "v0.1B"
 date                = "2026-06-07"
 maintainer          = "Mingyu Xia"
 uploader            = "Mingyu Xia"
@@ -48,7 +48,7 @@ uploadconfig  = {
   support           = repository .. "/issues",
   repository        = repository,
   development       = "https://github.com/" .. maintainid,
-  update            = true
+  update            = false
 }
 function update_tag(file, content, tagname, tagdate)
   tagname = version
@@ -56,7 +56,7 @@ function update_tag(file, content, tagname, tagdate)
   if string.match(file, module .. ".dtx$") then
     content = string.gsub(content,
       "%%<++!driver>\\GetIdInfo $Id: " .. module .. ".dtx " ..
-      "v%d+%.%d+%.%d+ %d+%-%d+%-%d+ (.-)<(.-)>",
+      "v%d+%.%d+%a+ %d+%-%d+%-%d+ (.-)<(.-)>",
       "%%<+!driver>\\GetIdInfo $Id: "  .. module .. ".dtx " ..
       tagname .. " " .. tagdate .. " " .. maintainid .. "<" .. email .. ">")
   end
