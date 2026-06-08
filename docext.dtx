@@ -51,10 +51,13 @@ It provides
 - The `codedemo` enviornment for typesetting the code within a `verbatim` and a
 `demo` environment at the same time.
 
-It fixes the errors of the `doc` package under
+It fixes the drawbacks of the `doc` package under
 - The engines: `pTeX` and `upTeX`.
 - The classes: `book` and `report` (or any class uses the `titlepage`
 environment in `\maketitle`)
+
+In the `l3doc` class, it resets the counter of `section` at the beginning of the
+`documentation` environment to support the bilingual manuals.
 
 This package is based on the `doc` package and works smoothly under the `l3doc`,
 `ltxdoc`, and `article` classes.
@@ -337,13 +340,16 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %    \end{macrocode}
 % Under the \cls{l3doc} class, surround \cs{hbox:n} to the argument of the
 % kernel function \cs{__codedoc_meta_original:n} of the \tn{meta} macro.
-% Suppress the warning raised by \cls{l3doc} (checking l3syntax) BTW.
+% Suppress the warning raised by \cls{l3doc} (checking l3syntax), and reset the
+% counter: |section| at the beginning of the \env{documentation} environment.
 %    \begin{macrocode}
   {
     \cs_set_eq:NN \@@_meta_patch:n \@@_meta_original:n
     \cs_set_protected:Npn \@@_meta_original:n #1
       { \@@_meta_patch:n { \hbox:n {#1} } }
     \msg_redirect_module:nnn { l3doc } { warning } { none }
+    \hook_gput_code:nnn { env / documentation / before } { . }
+      { \setcounter { section } { 0 } }
   }
 %    \end{macrocode}
 % Under other classes, load the \cls{doc} package then take the same trick as in

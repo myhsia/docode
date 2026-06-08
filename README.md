@@ -14,10 +14,13 @@ It provides
 - The `codedemo` enviornment for typesetting the code within a `verbatim` and a
 `demo` environment at the same time.
 
-It fixes the errors of the `doc` package under
+It fixes the drawbacks of the `doc` package under
 - The engines: `pTeX` and `upTeX`.
 - The classes: `book` and `report` (or any class uses the `titlepage`
 environment in `\maketitle`)
+
+In the `l3doc` class, it resets the counter of `section` at the beginning of the
+`documentation` environment to support the bilingual manuals.
 
 This package is based on the `doc` package and works smoothly under the `l3doc`,
 `ltxdoc`, and `article` classes.
