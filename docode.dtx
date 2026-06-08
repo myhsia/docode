@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% File: docode.dtx
+% File: docext.dtx
 % -----------------------------------------------------------------------
 %   Copyright (C) 2026 by Mingyu Xia <myhsia@outlook.com>               *
 % -----------------------------------------------------------------------
@@ -18,10 +18,10 @@
 %                                                                       *
 %   The Current Maintainer of this work is Mingyu Xia.                  *
 % -----------------------------------------------------------------------
-%   This work consists of the files docode.dtx,                         *
-%                                   docode.ins,                         *
-%                 the derived files docode.sty,                         *
-%           the documentation files docode.pdf,                         *
+%   This work consists of the files docext.dtx,                         *
+%                                   docext.ins,                         *
+%                 the derived files docext.sty,                         *
+%           the documentation files docext.pdf,                         *
 %                               and README.md.                          *
 % -----------------------------------------------------------------------
 %                                                                       *
@@ -35,42 +35,54 @@
 %</internal>
 %
 %<*readme>
-[![CTAN Version](https://img.shields.io/ctan/v/docode)](https://ctan.org/pkg/docode)
-[![GitHub Release](https://img.shields.io/github/v/release/myhsia/docode)](https://github.com/myhsia/docode/releases/latest)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/myhsia/docode)](https://github.com/myhsia/docode/commits)
-[![Actions Status](https://github.com/myhsia/docode/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/myhsia/docode/actions)
-[![GitHub Repo stars](https://img.shields.io/github/stars/myhsia/docode)](https://github.com/myhsia/docode)
+[![CTAN Version](https://img.shields.io/ctan/v/docext)](https://ctan.org/pkg/docext)
+[![GitHub Release](https://img.shields.io/github/v/release/myhsia/docext)](https://github.com/myhsia/docext/releases/latest)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/myhsia/docext)](https://github.com/myhsia/docext/commits)
+[![Actions Status](https://github.com/myhsia/docext/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/myhsia/docext/actions)
+[![GitHub Repo stars](https://img.shields.io/github/stars/myhsia/docext)](https://github.com/myhsia/docext)
 
-The `docode` Package
-=================================
+The `docext` Package
+====================
 
-The `docode` package is an extension for documenting the LaTeX source files.
-It is based on the `doc` package and works smoothly under the `l3doc`, `ltxdoc`,
-and `article` classes.
+The `docext` package is an extension for documenting LaTeX source files.
+
+It provides
+- An elegant way to typeset the `key-value` list.
+- The `codedemo` enviornment for typesetting the code within a `verbatim` and a
+`demo` environment at the same time.
+
+It fixes the errors of the `doc` package under
+- The engines: `pTeX` and `upTeX`.
+- The classes: `book` and `report` (or any class uses the `titlepage`
+environment in `\maketitle`)
+
+This package is based on the `doc` package and works smoothly under the `l3doc`,
+`ltxdoc`, and `article` classes.
 
 Overview
 --------
 
 To load this template, write the line
 
-    \usepackage[<options>]{docode}
+    \usepackage[<options>]{docext}
 
-See `docode.pdf` for more. Happy TeXing!
+See `docext.pdf` for more. Happy TeXing!
 
 Issues
 ------
 
-The issue tracker for `docode` is currently located
-[on GitHub](https://github.com/myhsia/docode/issues).
+The issue tracker for `docext` is currently located
+[on GitHub](https://github.com/myhsia/docext/issues).
 
 Build status
 ------------
 
-This project uses [GitHub Actions](https://github.com/features/actions)
-as a hosted continuous integration service. For each commit, the build status
-is tested using the current release of TeX Live.
+This project uses [GitHub Actions](https://github.com/features/actions) as a
+hosted continuous integration service. For each commit, the build status is
+tested using the current release of TeX Live.
 
-_Current build status:_ ![build status](https://github.com/myhsia/docode/actions/workflows/test.yaml/badge.svg?branch=main)
+_Current build status:_
+![build status](https://github.com/myhsia/docext/actions/workflows/test.yaml/badge.svg?branch=main)
 
 Copyright and License
 ---------------------
@@ -97,7 +109,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %</internal>
 %
 %<*package>
-%<+!driver>\GetIdInfo $Id: docode.dtx v0.1A 2026-06-07 myhsia<myhsia@outlook.com>$
+%<+!driver>\GetIdInfo $Id: docext.dtx v0.1A 2026-06-07 myhsia<myhsia@outlook.com>$
 %<package>  {Extension for documenting the LaTeX source files}
 %<package>\ProvidesExplPackage {\ExplFileName}
 %<!driver>  {\ExplFileDate} {\ExplFileVersion} {\ExplFileDescription}
@@ -108,7 +120,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %</package>
 %<*driver>
 \documentclass[11pt, letterpaper, cs-break = true]{l3doc}
-\usepackage[color = 00498F, ratio = .625]{docode}
+\usepackage[color = 00498F, ratio = .625]{docext}
 \usepackage{microtype, zref-clever}
 \usepackage[osf, mono = false]{libertine}
 \newcommand \mail[1] {\href{mailto:#1}{\ttfamily #1}}
@@ -124,16 +136,16 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \begin{documentation}
 %
 % \title{\bfseries
-%   The \pkg{docode} Package\thanks{^^A
-%     \url{https://ctan.org/pkg/docode},\
-%     \url{https://github.com/myhsia/docode}^^A
+%   The \pkg{docext} Package\thanks{^^A
+%     \url{https://ctan.org/pkg/docext},\
+%     \url{https://github.com/myhsia/docext}^^A
 %   }^^A
 % }
 % \author{Mingyu Xia\thanks{\mail{xiamingyu@westlake.edu.cn}}}
 % \date{Released \DocFileDate\quad \texttt{\DocFileVersion}}
 % \maketitle
 % \begin{abstract}
-%   The \pkg{docode} package is an extension for documenting the \LaTeX\
+%   The \pkg{docext} package is an extension for documenting the \LaTeX\
 %   source files. It is based on the \pkg{doc} package and works smoothly under
 %   the \cls{l3doc}, \cls{ltxdoc}, and~\cls{article} classes.
 % \end{abstract}
@@ -142,7 +154,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %
 % Write the line in the preamble
 % \begin{quote}
-%   "\usepackage[options]{docode}"
+%   "\usepackage[options]{docext}"
 % \end{quote}
 % while the package \meta{options} accepts the following keys\label{pkgopt}
 % \begin{keyval}
@@ -157,11 +169,11 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %
 % \section{User's Interfaces}
 %
-% \begin{function}{\docodeset}
+% \begin{function}{\docextset}
 %   \begin{syntax}
-%     \tn{docodeset} \marg{options}
+%     \tn{docextset} \marg{options}
 %   \end{syntax}
-%   The \tn{docodeset} can be used everywhere, and only the macros used in this
+%   The \tn{docextset} can be used everywhere, and only the macros used in this
 %   package \emph{after} it will be influenced. The \meta{options} accepts the
 %   same keys as the package \meta{options} referred in~\zcref{pkgopt}.
 % \end{function}
@@ -185,7 +197,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %</example>
 % \fi
 % \end{function}
-% \docodeset{ratio = .375}
+% \docextset{ratio = .375}
 % \begin{function}{\TF, \TTF, \TFF}
 %   Shortcut for typeset Boolean choices.
 % \iffalse
@@ -198,7 +210,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %</example>
 % \fi
 % \end{function}
-% \docodeset{ratio = .625}
+% \docextset{ratio = .625}
 % \noindent \DescribeEnv{codemo, codemo*}
 % Typeset the code on the left hand side and then execute the code in the right
 % hand side, while the star version will put the code above the demo.
@@ -267,10 +279,10 @@ The Current Maintainer of this work is **Mingyu Xia**.
 \ProcessKeyOptions [ @@ / pkgopt / keys,
                      @@ / pkgopt / codemo ]
 %    \end{macrocode}
-% \begin{macro}{\docodeset}
+% \begin{macro}{\docextset}
 % To control the variables.
 %    \begin{macrocode}
-\DeclareDocumentCommand \docodeset { m }
+\DeclareDocumentCommand \docextset { m }
   {
     \keys_set_known:nn { @@ / pkgopt / keys   } {#1}
     \keys_set_known:nn { @@ / pkgopt / codemo } {#1}
@@ -441,7 +453,8 @@ The Current Maintainer of this work is **Mingyu Xia**.
 \setlist[keyval]{leftmargin = 0pt, labelsep = 0pt}
 %    \end{macrocode}
 % \noindent \DescribeEnv{codemo, codemo*}
-% Environment for typesetting the code itself and the executing result.
+% Environment for typesetting the code within a |verbatim| and a |demo|
+% environment at the same time.
 %    \begin{macrocode}
 \DeclareDocumentEnvironment { codemo  } { } { \@@_codemo_start: }
   {

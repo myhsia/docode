@@ -1,15 +1,11 @@
---[==========================================[--
-        L3BUILD FILE FOR WESTLAKETHESIS
-      Once Pushed With This File Modified
-        A New Release Will Be Published
---]==========================================]--
+--[==========================================================================[--
+    L3BUILD FILE FOR DOCEXT                      Copyright (C) by Mingyu Xia
+--]==========================================================================]--
 
---[==========================================[--
-               Basic Information
-             Do Check Before Push
---]==========================================]--
-
-module              = "docode"
+--[==========================================================================[--
+    Basic Information: Do Check Before Push
+--]==========================================================================]--
+module              = "docext"
 version             = "v0.1A"
 date                = "2026-06-07"
 maintainer          = "Mingyu Xia"
@@ -18,12 +14,11 @@ maintainid          = "myhsia"
 email               = "myhsia@outlook.com"
 repository          = "https://github.com/" .. maintainid .. "/" .. module
 summary             = "Extension for documenting the LaTeX source files"
-description         = "The `docode` package is an extension for documenting the LaTeX source files."
+description         = "The `docext` package is an extension for documenting the LaTeX source files."
 
---[==========================================[--
-          Build, Pack, Tag, and Upload
-         Do not Modify Unless Necessary
---]==========================================]--
+--[==========================================================================[--
+    Configuration: Check, Tag, Pack, Upload     Do NOT Modify if Unnecessary
+--]==========================================================================]--
 checkengines        = {"pdftex", "xetex", "uptex", "luatex"}
 cleanfiles          = {"*.log", "*.pdf", "*.zip", "*.curlopt"}
 ctanzip             = module
@@ -63,8 +58,7 @@ function update_tag(file, content, tagname, tagdate)
   return content
 end
 
---[== "Hacks" to `l3build` | Do not Modify ==]--
-
+--[================== "Hacks" to `l3build` | Do not Modify ==================]--
 function docinit_hook()
   cp(ctanreadme, unpackdir, currentdir)
   return 0

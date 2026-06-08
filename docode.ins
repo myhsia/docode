@@ -1,6 +1,6 @@
 \iffalse meta-comment
 
-File: docode.ins
+File: docext.ins
 -----------------------------------------------------------------------
   Copyright (C) 2026 by Mingyu Xia <myhsia@outlook.com>               *
 -----------------------------------------------------------------------
@@ -18,10 +18,10 @@ File: docode.ins
                                                                       *
   The Current Maintainer of this work is Mingyu Xia.                  *
 -----------------------------------------------------------------------
-  This work consists of the files docode.dtx,                         *
-                                  docode.ins,                         *
-                the derived files docode.sty,                         *
-          the documentation files docode.pdf,                         *
+  This work consists of the files docext.dtx,                         *
+                                  docext.ins,                         *
+                the derived files docext.sty,                         *
+          the documentation files docext.pdf,                         *
                               and README.md.                          *
 -----------------------------------------------------------------------
                                                                       *
@@ -57,10 +57,10 @@ File: docode.ins
 
 \postamble
 -----------------------------------------------------------------------
-  This work consists of the files docode.dtx,                         *
-                                  docode.ins,                         *
-                the derived files docode.sty,                         *
-          the documentation files docode.pdf,                         *
+  This work consists of the files docext.dtx,                         *
+                                  docext.ins,                         *
+                the derived files docext.sty,                         *
+          the documentation files docext.pdf,                         *
                               and README.md.                          *
 -----------------------------------------------------------------------
 \endpostamble
@@ -68,9 +68,9 @@ File: docode.ins
 \keepsilent
 
 \generate{
-  \usedir{tex/latex/docode}
-    \file{docode.sty}                    {\from{\jobname.dtx}{package}}
-  \usedir{doc/latex/docode}
+  \usedir{tex/latex/docext}
+    \file{docext.sty}                    {\from{\jobname.dtx}{package}}
+  \usedir{doc/latex/docext}
   \nopreamble\nopostamble
     \file{README.md}                     {\from{\jobname.dtx}{readme} }
 }
@@ -78,4 +78,4 @@ File: docode.ins
 \endbatchfile
 \endinput
 %%
-%% End of file `docode.ins'
+%% End of file `docext.ins'

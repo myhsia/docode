@@ -20,15 +20,15 @@ jobs:
         with:
           package_file: .github/tl_packages
       - name: Run l3build
-        id: test-docode
+        id: test-docext
         run: l3build check --dev
       - name: Get short commit SHA
-        if: ${{ !cancelled() && (steps.test-docode.outcome == 'failure') }}
+        if: ${{ !cancelled() && (steps.test-docext.outcome == 'failure') }}
         run: |
           echo "SHA_SHORT=$(git rev-parse --short=7 HEAD)" >> $GITHUB_ENV
       - name: Upload test diffs
-        if: ${{ !cancelled() && (steps.test-docode.outcome == 'failure') }}
+        if: ${{ !cancelled() && (steps.test-docext.outcome == 'failure') }}
         uses: actions/upload-artifact@v7
         with:
-          name: docode-diff-${{ env.SHA_SHORT }}-${{ runner.os }}
+          name: docext-diff-${{ env.SHA_SHORT }}-${{ runner.os }}
           path: build/**/*.diff

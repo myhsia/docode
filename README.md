@@ -1,39 +1,51 @@
-[![CTAN Version](https://img.shields.io/ctan/v/docode)](https://ctan.org/pkg/docode)
-[![GitHub Release](https://img.shields.io/github/v/release/myhsia/docode)](https://github.com/myhsia/docode/releases/latest)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/myhsia/docode)](https://github.com/myhsia/docode/commits)
-[![Actions Status](https://github.com/myhsia/docode/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/myhsia/docode/actions)
-[![GitHub Repo stars](https://img.shields.io/github/stars/myhsia/docode)](https://github.com/myhsia/docode)
+[![CTAN Version](https://img.shields.io/ctan/v/docext)](https://ctan.org/pkg/docext)
+[![GitHub Release](https://img.shields.io/github/v/release/myhsia/docext)](https://github.com/myhsia/docext/releases/latest)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/myhsia/docext)](https://github.com/myhsia/docext/commits)
+[![Actions Status](https://github.com/myhsia/docext/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/myhsia/docext/actions)
+[![GitHub Repo stars](https://img.shields.io/github/stars/myhsia/docext)](https://github.com/myhsia/docext)
 
-The `docode` Package
-=================================
+The `docext` Package
+====================
 
-The `docode` package is an extension for documenting the LaTeX source files.
-It is based on the `doc` package and works smoothly under the `l3doc`, `ltxdoc`,
-and `article` classes.
+The `docext` package is an extension for documenting LaTeX source files.
+
+It provides
+- An elegant way to typeset the `key-value` list.
+- The `codedemo` enviornment for typesetting the code within a `verbatim` and a
+`demo` environment at the same time.
+
+It fixes the errors of the `doc` package under
+- The engines: `pTeX` and `upTeX`.
+- The classes: `book` and `report` (or any class uses the `titlepage`
+environment in `\maketitle`)
+
+This package is based on the `doc` package and works smoothly under the `l3doc`,
+`ltxdoc`, and `article` classes.
 
 Overview
 --------
 
 To load this template, write the line
 
-    \usepackage[<options>]{docode}
+    \usepackage[<options>]{docext}
 
-See `docode.pdf` for more. Happy TeXing!
+See `docext.pdf` for more. Happy TeXing!
 
 Issues
 ------
 
-The issue tracker for `docode` is currently located
-[on GitHub](https://github.com/myhsia/docode/issues).
+The issue tracker for `docext` is currently located
+[on GitHub](https://github.com/myhsia/docext/issues).
 
 Build status
 ------------
 
-This project uses [GitHub Actions](https://github.com/features/actions)
-as a hosted continuous integration service. For each commit, the build status
-is tested using the current release of TeX Live.
+This project uses [GitHub Actions](https://github.com/features/actions) as a
+hosted continuous integration service. For each commit, the build status is
+tested using the current release of TeX Live.
 
-_Current build status:_ ![build status](https://github.com/myhsia/docode/actions/workflows/test.yaml/badge.svg?branch=main)
+_Current build status:_
+![build status](https://github.com/myhsia/docext/actions/workflows/test.yaml/badge.svg?branch=main)
 
 Copyright and License
 ---------------------
