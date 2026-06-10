@@ -162,12 +162,12 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \end{quote}
 % while the package \meta{options} accepts the following keys\label{pkgopt}
 % \begin{keyval}
-%   \item [\keys{color}] \meta{l3color\textup\textbar HTML}: The color of keys
+%   \item [\keys{color}] \val{l3color\textup\textbar HTML}: The color of keys
 %   (Default: |black|).
-%   \item [\keys{font}] \meta{font macros}: Font of the keys.
-%   \item [\keys{delimiter}] \meta{string}: Delimiter between the keys
+%   \item [\keys{font}] \val{font macros}: Font of the keys.
+%   \item [\keys{delimiter}] \val{string}: Delimiter between the keys
 %   (Default: |,\,|).
-%   \item [\keys{ratio}] \meta{fp num}: Ratio of the boxes' widths
+%   \item [\keys{ratio}] \val{fp num}: Ratio of the boxes' widths
 %   in~\env{codemo} environment (Default: |0.625|).
 % \end{keyval}
 %
@@ -200,6 +200,12 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \iffalse
 %</example>
 % \fi
+% \end{function}
+% \begin{function}{\val}
+%   \begin{syntax}
+%     \tn{val} \oarg{options} \marg{string}
+%   \end{syntax}
+%   Typeset the value with a sharp bracket surrounded and specific format.
 % \end{function}
 % \docextset{ratio = .375}
 % \begin{function}{\TF, \TTF, \TFF}
@@ -387,6 +393,18 @@ The Current Maintainer of this work is **Mingyu Xia**.
   { emph        .int_set:N = \l_@@_keys_emph_int }
 %    \end{macrocode}
 % \end{variable}
+% \end{macro}
+% \begin{macro}{\val}
+% \hologo{LaTeX2e} user's interface for input value quickly.
+%    \begin{macrocode}
+\DeclareDocumentCommand \val { O {} m }
+  {
+    \group_begin:
+      \keys_set_known:nn { @@ / pkgopt / keys } {#1}
+      \meta { \g_@@_keys_font_tl \ttfamily \color_select:n { docolor } #2 }
+    \group_end:
+  }
+%    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\@@_keys_aux:nnnnn, \@@_keys_emph:n}
 % Auxiliary commands of the \tn{keys} macro.
