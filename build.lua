@@ -7,7 +7,7 @@
 --]==========================================================================]--
 module              = "docext"
 version             = "v0.2A"
-date                = "2026-06-12"
+date                = "2026-06-13"
 maintainer          = "Mingyu Xia"
 uploader            = "Mingyu Xia"
 maintainid          = "myhsia"

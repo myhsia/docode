@@ -154,7 +154,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %   the \cls{l3doc}, \cls{ltxdoc}, and~\cls{article} classes.
 % \end{abstract}
 %
-% \section{Loading the Package}
+% \section{Loading \& Configuring the Package}
 %
 % Write the line in the preamble
 % \begin{quote}
@@ -162,33 +162,36 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % \end{quote}
 % while the package \meta{options} accepts the following keys\label{pkgopt}
 % \begin{keyval}
-%   \item [\keys{color}] \val{l3color\textup\textbar HTML}: The color of keys
-%   (Default: |black|).
+%   \item [\keys{color}] \val{l3color, HTML}:
+%   The color of keys (Default: |black|).
 %   \item [\keys{font}] \val{font macros}: Font of the keys.
-%   \item [\keys{delimiter}] \val{string}: Delimiter between the keys
-%   (Default: |,\,|).
+%   \item [\keys{delimiter}] \val{string}: Delimiter between the keys.
 %   \item [\keys{ratio}] \val{fp num}: Ratio of the boxes' widths
 %   in~\env{codemo} environment (Default: |0.625|).
 % \end{keyval}
-%
-% \section{User's Interfaces}
-%
-% \begin{function}{\docextset}
+% Apart from configuring the package with the package options, users can
+% also use the \tn{docextset} function within the preamble and the context.
+% \begin{function}[added = 2026-06-07]{\docextset}
 %   \begin{syntax}
 %     \tn{docextset} \marg{options}
 %   \end{syntax}
-%   The \tn{docextset} can be used everywhere, and only the macros used in this
-%   package \emph{after} it will be influenced. The \meta{options} accepts the
-%   same keys as the package \meta{options} referred in~\zcref{pkgopt}.
+%   The functions used in this package \emph{after} \tn{docextset} will be
+%   influenced.\\
+%   The \meta{options} accepts the same keys above.
 % \end{function}
 %
-% \begin{function}{\keys}
+% \section{User's Interfaces}
+%
+% \begin{function}[added = 2026-06-07, updated = 2026-06-13]{\keys}
 %   \begin{syntax}
 %     \tn{keys} \oarg{options} \marg{comma list}
 %   \end{syntax}
-%   Typeset the keys with specific format. The \meta{options} accepts all the
-%   keys referred in~\zcref{pkgopt}, and also accepts the key \keys{emph} to
-%   assign \# of the keys will be emphasised.
+%   Typeset the keys with specific format.
+%   The \meta{options} accepts the \keys{delimiter, font, color} keys referred
+%   in~\zcref{pkgopt} and another \keys{emph} key to assign \# of the key will
+%   be emphasised.\\
+%   The initial value of the \keys{delimiter} key is |,\,\allowbreak| in this
+%   function.
 % \iffalse
 %<*example>
 % \fi
@@ -201,15 +204,19 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %</example>
 % \fi
 % \end{function}
-% \begin{function}{\val}
+% \begin{function}[added = 2026-06-13]{\val}
 %   \begin{syntax}
-%     \tn{val} \oarg{options} \marg{string}
+%     \tn{val} \oarg{options} \marg{comma list}
 %   \end{syntax}
-%   Typeset the value with a sharp bracket surrounded and specific format.
+%   Typeset the value with specific format and surround with \tn{meta}.
+%   The \meta{options} accepts the \keys{delimiter, font, color} keys referred
+%   in~\zcref{pkgopt}.\\
+%   The initial value of the \keys{delimiter} key is \tn{textbar} in this
+%   function.
 % \end{function}
 % \docextset{ratio = .375}
-% \begin{function}{\TF, \TTF, \TFF}
-%   Shortcut for typeset Boolean choices.
+% \begin{function}[added = 2026-06-07]{\TF}
+%   Shortcut for typeset Boolean-choice value.
 % \iffalse
 %<*example>
 % \fi
@@ -220,24 +227,35 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %</example>
 % \fi
 % \end{function}
+% \begin{function}[added = 2026-06-13]{\ttwd}
+% \begin{syntax}
+%   \cs{hspace} \cs{\meta{fontsize}ttwd}
+% \end{syntax}
+% Output the dimension of the width of one typewriter letter.
+% The \meta{fontsize} prefix can be chosen as~\keys[emph = 5]{^^A
+%   tiny,  scriptsize, footnotesize, small, normalsize,
+%   large, Large,      LARGE,        huge,  Huge}.
+% \end{function}
 % \docextset{ratio = .625}
 % \noindent \DescribeEnv{codemo, codemo*}
 % Typeset the code on the left hand side and then execute the code in the right
 % hand side, while the star version will put the code above the demo.
-% The effect has been demoed in the introduction of user's interfaces above.
 % \begin{quote}
 %  |\begin{codemo(*)}|\\
 %  |  Code needs to be typeset in verbatim and demoed|\\
 %  |\end{codemo(*)}|
 % \end{quote}
+% The effect is the same as the demos in the introductions of the functions
+% above.
 % \noindent \DescribeEnv{keyval}
-% Itemize-type environment for typesetting the keys. The effect is the same as
-% the package options introduction of~\zcref{pkgopt} in this manual.
+% Itemize-type environment for typesetting the keys.
 % \begin{quote}
 % |\begin{keyval}|\\
 % |  \item [\keys{keya, keyb, keyc}]\meta{foo}|\\
 % |\end{keyval}|
 % \end{quote}
+% The effect is the same as the package options introduction of~\zcref{pkgopt}
+% in this manual.
 %
 % \end{documentation}
 %
@@ -275,7 +293,6 @@ The Current Maintainer of this work is **Mingyu Xia**.
       color     .initial:n = { black },
     font        .tl_set:N  = \g_@@_keys_font_tl,
     delimiter   .tl_set:N  = \g_@@_keys_delimiter_tl,
-      delimiter .initial:n = { ,\, },
   }
 \keys_define:nn { @@ / pkgopt / codemo }
   {
@@ -308,7 +325,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 % the \pkg{doc} package.
 %    \begin{macrocode}
 \bool_lazy_or:nnT { \sys_if_engine_ptex_p: } { \sys_if_engine_uptex_p: }
-  {    
+  {
     \def\prepare@family@series@update#1#2{%
       \def\@currentmetafamily{#1}%
       \if@forced@series
@@ -374,13 +391,14 @@ The Current Maintainer of this work is **Mingyu Xia**.
 \DeclareDocumentCommand \keys { O {} m }
   {
     \group_begin:
-      \keys_set_known:nn { @@ / pkgopt / keys } {#1}
+      \keys_set_known:nn { @@ / pkgopt / keys }
+        { delimiter = { ,\,\allowbreak }, #1 }
       \keys_set_known:nn { @@ / keys          } {#1}
-      \@@_keys_aux:nnnnn
-        {#2} { \l_@@_keys_emph_int          }
-             { \g_@@_keys_delimiter_tl      }
-             { \g_@@_keys_font_tl \ttfamily }
-             { docolor                      }
+      \@@_keys_aux:nnnnn {#2}
+        { \l_@@_keys_emph_int             }
+        { \textup \g_@@_keys_delimiter_tl }
+        { \g_@@_keys_font_tl \ttfamily    }
+        { docolor                         }
       \tl_if_eq:NnT \@currenvir    { keyval }
         { \g_@@_keys_font_tl \ttfamily \, = \, }
     \group_end:
@@ -400,8 +418,16 @@ The Current Maintainer of this work is **Mingyu Xia**.
 \DeclareDocumentCommand \val { O {} m }
   {
     \group_begin:
-      \keys_set_known:nn { @@ / pkgopt / keys } {#1}
-      \meta { \g_@@_keys_font_tl \ttfamily \color_select:n { docolor } #2 }
+      \keys_set_known:nn { @@ / pkgopt / keys }
+        { delimiter = { \g_@@_vbar_tl \allowbreak }, #1 }
+      \meta
+        {
+          \@@_keys_aux:nnnnn {#2}
+            { 0                               }
+            { \textup \g_@@_keys_delimiter_tl }
+            { \g_@@_keys_font_tl \ttfamily    }
+            { docolor                         }
+        }
     \group_end:
   }
 %    \end{macrocode}
@@ -445,7 +471,7 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\TF, \TTF, \TFF}
-% \hologo{LaTeX2e} user's interface for input Boolean choices quickly.
+% \hologo{LaTeX2e} user's interface for input Boolean-choice value quickly.
 %    \begin{macrocode}
 \DeclareDocumentCommand \TF  {} { \@@_keys_TF_aux:n { 0 } }
 \DeclareDocumentCommand \TTF {} { \@@_keys_TF_aux:n { 1 } }
@@ -534,8 +560,8 @@ The Current Maintainer of this work is **Mingyu Xia**.
       \dim_set:Nn \parindent { \c_zero_skip }
       \fbox
         {
-          \bool_if:NT #1 { \null \skip_horizontal:n { 2ex } }
-          \parbox[c][\l_@@_codemo_int \baselineskip + 1ex]
+          \bool_if:NT #1 { \null \skip_horizontal:n { 2\ttwd } }
+          \parbox [ c ] [ \l_@@_codemo_int \baselineskip + .48ex ]
             {
               \fp_eval:n { \bool_if:NTF #1 { 1 } {#2} * .96 }
               \linewidth \bool_if:NT #1 { -.8pt }
@@ -545,11 +571,11 @@ The Current Maintainer of this work is **Mingyu Xia**.
         { \par \skip_vertical:n { -1.5pt } } { \hfill }
       \fbox
         {
-          \null \skip_horizontal:n { 2ex }
-          \parbox[c][\l_@@_codemo_int \baselineskip + 1ex]
+          \null \skip_horizontal:n { 2\ttwd }
+          \parbox [ c ] [ \l_@@_codemo_int \baselineskip + .48ex ]
             {
               \fp_eval:n { \bool_if:NTF #1 { 1 } { (1 - #2) } * .96 }
-              \linewidth \bool_if:NTF #1 { -.8pt } { - 2ex }
+              \linewidth \bool_if:NTF #1 { -.8pt } { - 2\ttwd }
             } { \file_input:n  { \l_@@_codemo_name_tl }    }
         }
       \par \smallskip
@@ -573,7 +599,33 @@ The Current Maintainer of this work is **Mingyu Xia**.
 %    \end{macrocode}
 % \end{variable}
 % \end{macro}
-% End the optionlist |package| for \pkg{l3docstrip}.
+% \begin{macro}{\ttwd}
+% Dimensions of the width of one typewriter letter under different fontsizes.
+% \begin{variable}{\l_@@_ttwd_box}
+% Box for saving one typewriter letter temporally.
+%    \begin{macrocode}
+\box_new:N \l_@@_ttwd_box
+%    \end{macrocode}
+% \end{variable}
+%    \begin{macrocode}
+\clist_map_inline:nn
+  {
+    tiny,  scriptsize, footnotesize, small, \@empty,
+    large, Large,      LARGE,        huge,  Huge
+  }
+  {
+    \dim_new:c { #1 ttwd }
+    \cs_new_protected_nopar:cpn { update#1ttwd }
+      {
+        \hbox_set:Nn \l_@@_ttwd_box { \use:c {#1} \ttfamily x }
+        \dim_gset:cn { #1 ttwd } { \box_wd:N \l_@@_ttwd_box }
+      }
+    \hook_gput_code:nnn { begindocument / before } { . }
+      { \use:c { update#1ttwd } }
+  }
+%    \end{macrocode}
+% \end{macro}
+% End\hskip\ttwd the optionlist |package| for \pkg{l3docstrip}.
 %    \begin{macrocode}
 %</package>
 %    \end{macrocode}

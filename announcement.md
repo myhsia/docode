@@ -1,4 +1,5 @@
-## A new package `docext` is published on CTAN.
+## Version 0.2A released
 
-The `docext` package is an extension for documenting the LaTeX source files.
-It is based on the `doc` package and works smoothly under the `l3doc`, `ltxdoc`, and~`article` classes.
+- New function `\val` for tepesetting the value with specific format and surround with \meta.
+- New dimension `\ttwd` for outputting the dimension of the width of one typewriter letter.
+- Applied `\allowbreak` to the `delimiter` key.
